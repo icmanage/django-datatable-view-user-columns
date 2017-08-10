@@ -10,7 +10,7 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='customer_x',
+    name='django_datatable_view_user_columns',
     version='0.1.0',
     description='Django Datatable view user columns',
     long_description=readme,
