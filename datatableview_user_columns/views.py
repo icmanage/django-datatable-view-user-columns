@@ -6,6 +6,8 @@ from __future__ import print_function
 
 import logging
 
+import os
+
 import datatables
 from .models import DataTableUserColumns
 
@@ -24,6 +26,12 @@ except:
         pass
 
 try:
+    from apps.core.views.generics import IPCUpdateView as UpdateView
+except:
+    from django.views.generic import UpdateView
+
+
+try:
     from apps.core.views.generics import IPCDatatableView as DatatableMixin
 except:
     log.warning("No IPC Datatable view found!")
@@ -35,7 +43,10 @@ class DataTableUserMixin(DatatableMixin):
     def get_datatable_kwargs(self, **kwargs):
         kwargs = super(DataTableUserMixin, self).get_datatable_kwargs(**kwargs)
         kwargs['user'] = self.request.user
-        kwargs['table_name'] = self.__class__.__name__
+
+        package = os.path.basename(os.path.dirname(__file__))
+        module = os.path.splitext(os.path.basename(__file__))[0]
+        kwargs['table_name'] = ".".join([package, module, self.__class__.__name__])
         return kwargs
 
 
@@ -49,6 +60,11 @@ class DataTableUserColumnsListView(DataTableUserMixin):
     datatable_class = datatables.DataTableUserColumnsDataTable
     show_add_button = False
 
+
+    def get_queryset(self):
+        return DataTableUserColumns.objects.all()
+
+class DataTableUserColumnsUpdateView(UpdateView):
 
     def get_queryset(self):
         return DataTableUserColumns.objects.all()
