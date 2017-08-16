@@ -8,7 +8,7 @@ import logging
 
 from django.conf.urls import url
 
-from .views import DataTableUserColumnsListView, DataTableUserColumnsUpdateView
+from .views import DataTableUserColumnsListView, DataTableUserColumnsUpdateView, DataTableUserColumnsCreateView
 
 __author__ = 'Steven Klass'
 __date__ = '8/10/17 11:41'
@@ -19,5 +19,6 @@ log = logging.getLogger(__name__)
 
 urlpatterns = [
     url(r'^$', DataTableUserColumnsListView.as_view(), name="list"),
+    url(r'^create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="create"),
     url(r'^update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="update"),
 ]

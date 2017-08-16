@@ -4,12 +4,16 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+import importlib
 import logging
-
 import os
+import inspect
+
+from django.http import HttpResponseRedirect
 
 import datatables
 from .models import DataTableUserColumns
+from django.views.generic import CreateView
 
 __author__ = 'Steven Klass'
 __date__ = '8/10/17 11:41'
@@ -43,11 +47,14 @@ class DataTableUserMixin(DatatableMixin):
     def get_datatable_kwargs(self, **kwargs):
         kwargs = super(DataTableUserMixin, self).get_datatable_kwargs(**kwargs)
         kwargs['user'] = self.request.user
-
-        package = os.path.basename(os.path.dirname(__file__))
-        module = os.path.splitext(os.path.basename(__file__))[0]
-        kwargs['table_name'] = ".".join([package, module, self.__class__.__name__])
+        kwargs['table_name'] = self.get_table()
         return kwargs
+
+    def get_table(self):
+        filename = inspect.getfile(self.__class__)
+        package = os.path.basename(os.path.dirname(filename))
+        module = os.path.splitext(os.path.basename(filename))[0]
+        return ".".join([package, module, self.__class__.__name__])
 
 
 #
@@ -63,6 +70,23 @@ class DataTableUserColumnsListView(DataTableUserMixin):
 
     def get_queryset(self):
         return DataTableUserColumns.objects.all()
+
+class DataTableUserColumnsCreateView(AuthenticationMixin, CreateView):
+
+    def get(self, request, *args, **kwargs):
+
+        _import = ".".join(kwargs.get('table_name').split(".")[:-1])
+        _class = kwargs.get('table_name').split(".")[-1]
+
+        i = importlib.import_module(_import, [_class])
+        datatable_class = getattr(i, _class).datatable_class
+
+        obj, create = DataTableUserColumns.objects.get_or_create(
+            user=request.user, table_name=kwargs.get('table_name'),
+            defaults={'columns': ",".join(datatable_class.default_columns)})
+
+        return HttpResponseRedirect(obj.get_edit_url())
+
 
 class DataTableUserColumnsUpdateView(UpdateView):
 

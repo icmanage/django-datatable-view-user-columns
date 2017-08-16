@@ -8,6 +8,7 @@ import logging
 from collections import OrderedDict
 
 from datatableview import datatables
+from django.core.urlresolvers import reverse
 
 from .models import DataTableUserColumns
 
@@ -25,13 +26,28 @@ class DataTableUserDataTableMixin(object):
     def __init__(self, user=None, table_name=None, *args, **kwargs):
         super(DataTableUserDataTableMixin, self).__init__(*args, **kwargs)
         keep_columns = self.default_columns
+        self.table_name = table_name
+        self.column_datatable_object = None
         if user and table_name:
             try:
-                keep_columns = DataTableUserColumns.objects.get(user=user, table_name=table_name).columns.split(',')
+                self.column_datatable_object = DataTableUserColumns.objects.get(user=user, table_name=table_name)
             except DataTableUserColumns.DoesNotExist:
                 pass
+            else:
+                keep_columns = self.column_datatable_object.columns.split(',')
         self.columns = OrderedDict([(k, self.columns.get(k)) for k in keep_columns])
 
+    @property
+    def column_edit_url(self):
+
+        # REMOVE
+        return None
+
+        if self.table_name:
+            if self.column_datatable_object is None:
+                return '/user_tables/create/{}/'.format(self.table_name)
+            else:
+                return '/user_tables/update/{}/'.format(self.column_datatable_object.id)
 #
 # Example
 #
