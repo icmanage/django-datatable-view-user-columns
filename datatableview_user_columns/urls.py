@@ -18,7 +18,7 @@ __credits__ = ['Steven Klass', ]
 log = logging.getLogger(__name__)
 
 urlpatterns = [
-    url(r'^$', DataTableUserColumnsListView.as_view(), name="list"),
-    url(r'^create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="create"),
-    url(r'^update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="update"),
+    url(r'^user_columns/$', DataTableUserColumnsListView.as_view(), name="user_table_list"),
+    url(r'^user_columns/create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="user_table_create"),
+    url(r'^user_columns/update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="user_table_update"),
 ]

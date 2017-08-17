@@ -1,0 +1,39 @@
+{% extends "base_form_tabs_excluded.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}Update Columns for Table{% endblock page_title %}
+
+{% block style_sheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/selectize{% if not debug %}.min{% endif %}.css" type="text/css" media="screen,projection"/>
+{% endblock style_sheet %}
+
+{% block javascript_tail %}
+    {{ block.super }}
+    <script type="text/javascript">
+        requirejs(['jquery', 'selectize'], function ($, selectize) {
+
+            $('#id_columns').selectize({
+{#                plugins: ['drag_drop'],#}
+                delimiter: ',',
+                persist: false,
+                create: false
+            });
+            console.log("HERE!!")
+        });
+
+
+    </script>
+{% endblock javascript_tail %}
+
+
+
+{% block form_content %}
+
+    <div class="row">
+        <div class="col-md-4">{{ form.columns }}</div>
+    </div>
+    <input type="hidden" name="next" value="{{ next }}"/>
+
+
+{% endblock form_content %}

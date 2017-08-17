@@ -9,9 +9,11 @@ import logging
 import os
 import inspect
 
-from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, HttpResponse
 
 import datatables
+from datatableview_user_columns.forms import UserColumnsUpdateForm
 from .models import DataTableUserColumns
 from django.views.generic import CreateView
 
@@ -85,10 +87,31 @@ class DataTableUserColumnsCreateView(AuthenticationMixin, CreateView):
             user=request.user, table_name=kwargs.get('table_name'),
             defaults={'columns': ",".join(datatable_class.default_columns)})
 
-        return HttpResponseRedirect(obj.get_edit_url())
+        next_page = self.request.GET.get('next', "")
+        if len(next_page):
+            next_page = "?next=" + next_page
+
+        return HttpResponseRedirect(reverse('user_table_update', kwargs=dict(pk=obj.id)) + next_page)
 
 
 class DataTableUserColumnsUpdateView(UpdateView):
+    form_class = UserColumnsUpdateForm
 
     def get_queryset(self):
         return DataTableUserColumns.objects.all()
+
+    def get_form_kwargs(self):
+        kwargs = super(DataTableUserColumnsUpdateView, self).get_form_kwargs()
+        kwargs['choices'] = self.object.get_available_column_choices()
+        return kwargs
+
+    def get_cancel_url(self):
+        return self.request.GET.get('next', "/")
+
+    def get_success_url(self):
+        return self.request.GET.get('next', "/")
+
+    def get_context_data(self, **kwargs):
+        data = super(DataTableUserColumnsUpdateView, self).get_context_data(**kwargs)
+        data['next'] = self.request.GET.get('next')
+        return data

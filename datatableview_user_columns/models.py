@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+import importlib
 import logging
 
 from django.conf import settings
@@ -28,6 +29,21 @@ class DataTableUserColumns(models.Model):
     class Meta:
         permissions = (('view_datatableusercolumns', "View Datatable User Columns"),)
 
+    def __unicode__(self):
+        return self.table_name.split(".")[-1]
+
     def save(self, *args, **kwargs):
         self.last_updated = now()
         return super(DataTableUserColumns, self).save(*args, **kwargs)
+
+    def get_datatable_class(self):
+        _import = ".".join(self.table_name.split(".")[:-1])
+        _class = self.table_name.split(".")[-1]
+
+        i = importlib.import_module(_import, [_class])
+        return getattr(i, _class).datatable_class
+
+    def get_available_column_choices(self):
+        datatable_class = self.get_datatable_class()
+        return[(k, v.label)for k, v in datatable_class.base_columns.items()]
+
