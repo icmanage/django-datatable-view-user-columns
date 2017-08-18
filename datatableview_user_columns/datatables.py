@@ -58,6 +58,7 @@ class DataTableUserDataTableMixin(object):
 
 #
 # Example
+
 #
 
 class DataTableUserColumnsDataTable(DataTableUserDataTableMixin, datatables.Datatable):
