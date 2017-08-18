@@ -28,6 +28,8 @@ class DataTableUserColumns(models.Model):
 
     class Meta:
         permissions = (('view_datatableusercolumns', "View Datatable User Columns"),)
+        verbose_name = "Datatable user defined columns"
+        verbose_name_plural = "Datatable user defined columns's"
 
     def __unicode__(self):
         return self.table_name.split(".")[-1]
