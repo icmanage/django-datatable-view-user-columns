@@ -8,32 +8,33 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/selectize{% if not debug %}.min{% endif %}.css" type="text/css" media="screen,projection"/>
 {% endblock style_sheet %}
 
-{% block javascript_tail %}
-    {{ block.super }}
-    <script type="text/javascript">
-        requirejs(['jquery', 'selectize'], function ($, selectize) {
-
-            $('#id_columns').selectize({
-{#                plugins: ['drag_drop'],#}
-                delimiter: ',',
-                persist: false,
-                create: false
-            });
-            console.log("HERE!!")
-        });
-
-
-    </script>
-{% endblock javascript_tail %}
-
-
 
 {% block form_content %}
-
     <div class="row">
-        <div class="col-md-4">{{ form.columns }}</div>
+        <div class="col-md-12"><h4>Avaliable Column Choices</h4></div>
+        <div class="col-md-12">{{ column_choices|unordered_list }}</div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">{{ form.columns }}</div>
+        <div class="col-md-1"><a class="btn btn-md btn-default pull-right"
+                                 href="{{ delete_url }}?next={{ next }}" target="_blank">Defaults</a></div>
     </div>
     <input type="hidden" name="next" value="{{ next }}"/>
 
 
 {% endblock form_content %}
+
+
+{% block javascript_tail %}
+    {{ block.super }}
+    <script type="text/javascript">
+        requirejs(['jquery', 'jquery-ui', 'selectize'], function ($, juqueryui, selectize) {
+            $('#id_columns').selectize({
+                plugins: ['drag_drop', 'remove_button'],
+                delimiter: ',',
+                create: false
+            });
+        });
+    </script>
+{% endblock javascript_tail %}

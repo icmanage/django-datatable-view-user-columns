@@ -15,7 +15,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 import datatables
 from datatableview_user_columns.forms import UserColumnsUpdateForm
 from .models import DataTableUserColumns
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 
 __author__ = 'Steven Klass'
 __date__ = '8/10/17 11:41'
@@ -59,20 +59,6 @@ class DataTableUserMixin(DatatableMixin):
         return ".".join([package, module, self.__class__.__name__])
 
 
-#
-# Example using our own system...
-#
-
-
-class DataTableUserColumnsListView(DataTableUserMixin):
-    permission_required = 'ip_verification.view_regressiontagsummary'
-    datatable_class = datatables.DataTableUserColumnsDataTable
-    show_add_button = False
-
-
-    def get_queryset(self):
-        return DataTableUserColumns.objects.all()
-
 class DataTableUserColumnsCreateView(AuthenticationMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
@@ -103,6 +89,7 @@ class DataTableUserColumnsUpdateView(UpdateView):
     def get_form_kwargs(self):
         kwargs = super(DataTableUserColumnsUpdateView, self).get_form_kwargs()
         kwargs['choices'] = self.object.get_available_column_choices()
+        kwargs['initial'] = {'columns': self.object.columns.split(",")}
         return kwargs
 
     def get_cancel_url(self):
@@ -114,4 +101,30 @@ class DataTableUserColumnsUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         data = super(DataTableUserColumnsUpdateView, self).get_context_data(**kwargs)
         data['next'] = self.request.GET.get('next')
+        data['column_choices'] = [x[1] for x in self.object.get_available_column_choices()]
+        data['delete_url'] = reverse('user_table_delete', kwargs=dict(pk=self.object.id))
         return data
+
+class DataTableUserColumnsDeleteView(DeleteView):
+
+    def get_queryset(self):
+        return DataTableUserColumns.objects.all()
+
+    def get_success_url(self):
+        return self.request.GET.get('next', "/")
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+#
+# Example using our own system...
+#
+
+
+class DataTableUserColumnsListView(DataTableUserMixin):
+    permission_required = 'ip_verification.view_regressiontagsummary'
+    datatable_class = datatables.DataTableUserColumnsDataTable
+    show_add_button = False
+
+    def get_queryset(self):
+        return DataTableUserColumns.objects.all()
+
