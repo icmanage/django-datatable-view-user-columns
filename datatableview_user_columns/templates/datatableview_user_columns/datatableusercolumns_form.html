@@ -17,16 +17,13 @@
     <br />
     <div class="row">
         <div class="col-md-6">{{ form.columns }}</div>
-        <div class="col-md-1">
+        <div class="col-md-3">
             <button type="submit" id="id_submit" class="btn btn-primary">Submit</button>
-        </div>
-        {% if cancel_url %}
-            <div class="col-md-1">
+            {% if cancel_url %}
                 <a class="btn btn-default" href="{{ cancel_url }}">Cancel</a>
-            </div>
-        {% endif %}
-        <div class="col-md-1"><a class="btn btn-md btn-default pull-right"
-                                 href="{{ delete_url }}?next={{ next }}" target="_blank">Defaults</a></div>
+            {% endif %}
+            <a class="btn btn-md btn-default" href="{{ delete_url }}?next={{ next }}">Defaults</a>
+        </div>
     </div>
     <input type="hidden" name="next" value="{{ next }}"/>
 
