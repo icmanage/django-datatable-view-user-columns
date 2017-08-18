@@ -3,7 +3,7 @@
 {% block action_button %}
     <div class="col-md-2">
         {% if datatable.column_edit_url or True %}
-            <a class="btn btn-md btn-default pull-right" href="{{ datatable.column_edit_url }}?next={{ request.path }}" target="_blank">SetColumns</a>
+            <a class="btn btn-md btn-default pull-right" href="{{ datatable.column_edit_url }}?next={{ request.path }}">SetColumns</a>
         {% endif %}
     </div>
 {% endblock %}
