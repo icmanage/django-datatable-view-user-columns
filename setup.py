@@ -19,5 +19,6 @@ setup(
     url='https://github.com/icmanage/django-datatable-view-user-columns',
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
+    include_package_data=True,
 )
 
