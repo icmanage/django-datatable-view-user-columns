@@ -40,7 +40,7 @@ class DataTableUserDataTableMixin(object):
             keep_columns = [k for k in keep_columns if k not in [x[1] for x in self.required_columns]]
             for (k, pos) in self.required_columns:
                 keep_columns.insert(pos, k)
-        self.columns = OrderedDict([(k, self.columns.get(k)) for k in keep_columns])
+        self.columns = OrderedDict([(k, self.columns.get(k)) for k in keep_columns if self.columns.get(k)])
 
     @property
     def column_edit_url(self):
