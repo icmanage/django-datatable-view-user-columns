@@ -32,7 +32,7 @@ class DataTableUserDataTableMixin(object):
             try:
                 self.column_datatable_object = DataTableUserColumns.objects.get(user=user, table_name=table_name)
             except DataTableUserColumns.DoesNotExist:
-                pass
+                self.column_datatable_object = None
             else:
                 keep_columns = self.column_datatable_object.columns.split(',')
 
@@ -40,7 +40,21 @@ class DataTableUserDataTableMixin(object):
             keep_columns = [k for k in keep_columns if k not in [x[1] for x in self.required_columns]]
             for (k, pos) in self.required_columns:
                 keep_columns.insert(pos, k)
-        self.columns = OrderedDict([(k, self.columns.get(k)) for k in keep_columns if self.columns.get(k)])
+
+        self._columns = OrderedDict()
+        _keep_columns, has_errors = [], False
+        for column in keep_columns:
+            if self.columns.get(column):
+                self._columns[column] = self.columns.get(column)
+                _keep_columns.append(column)
+            else:
+                has_errors = True
+        if has_errors and self.column_datatable_object:
+            missing = list(set(keep_columns)-set(_keep_columns))
+            log.warning("Removing %s column(s) (%s) for %s and table %s", len(missing), ",".join(missing), user, table_name)
+            self.column_datatable_object.columns = ",".join(_keep_columns)
+            self.column_datatable_object.save()
+        self.columns = self._columns
 
     @property
     def column_edit_url(self):
