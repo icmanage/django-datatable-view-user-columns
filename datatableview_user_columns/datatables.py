@@ -39,7 +39,10 @@ class DataTableUserDataTableMixin(object):
         if hasattr(self, 'required_columns'):
             keep_columns = [k for k in keep_columns if k not in [x[1] for x in self.required_columns]]
             for (k, pos) in self.required_columns:
-                keep_columns.insert(pos, k)
+                if pos > 0:
+                    keep_columns.insert(pos, k)
+                else:
+                    keep_columns.append(k)
 
         self._columns = OrderedDict()
         _keep_columns, has_errors = [], False
