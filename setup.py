@@ -158,8 +158,8 @@ setup(
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
     package_data={
-        'datatableview_user_colummns': ['static/js/*.js', 'static/css/*.css',
-                                        'templates/datatableview_user_colummns/*.html', ]},
+        'datatableview_user_columns': ['static/js/*.js', 'static/css/*.css',
+                                        'templates/datatableview_user_columns/*.html', ]},
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
