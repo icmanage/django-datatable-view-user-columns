@@ -9,7 +9,7 @@ import logging
 import os
 import inspect
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
 import datatables
