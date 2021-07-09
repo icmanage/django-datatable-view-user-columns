@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('table_name', models.CharField(max_length=128)),
                 ('columns', models.TextField()),
                 ('last_updated', models.DateTimeField(default=django.utils.timezone.now)),
-                ('user', models.ForeignKey(related_name='datatable_colums', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(related_name='datatable_colums', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'permissions': (('view_datatableusercolumns', 'View Datatable User Columns'),),

@@ -12,8 +12,9 @@ import inspect
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
-import datatables
-from datatableview_user_columns.forms import UserColumnsUpdateForm
+from .datatables import DataTableUserColumnsDataTable
+from datatableview import views
+from .forms import UserColumnsUpdateForm
 from .models import DataTableUserColumns
 from django.views.generic import CreateView, DeleteView
 
@@ -41,7 +42,7 @@ try:
     from apps.core.views.generics import IPCDatatableView as DatatableMixin
 except:
     log.warning("No IPC Datatable view found!")
-    from datatables.views import DatatableMixin
+    from views import DatatableMixin
 
 
 class DataTableUserMixin(DatatableMixin):
@@ -122,7 +123,7 @@ class DataTableUserColumnsDeleteView(DeleteView):
 
 class DataTableUserColumnsListView(DataTableUserMixin):
     permission_required = 'ip_verification.view_regressiontagsummary'
-    datatable_class = datatables.DataTableUserColumnsDataTable
+    datatable_class = DataTableUserColumnsDataTable
     show_add_button = False
 
     def get_queryset(self):
