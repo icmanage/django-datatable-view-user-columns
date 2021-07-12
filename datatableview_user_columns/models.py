@@ -27,7 +27,6 @@ class DataTableUserColumns(models.Model):
     last_updated = models.DateTimeField(default=now)
 
     class Meta:
-        permissions = (('view_datatableusercolumns', "View Datatable User Columns"),)
         verbose_name = "Datatable user defined columns"
         verbose_name_plural = "Datatable user defined columns's"
 
