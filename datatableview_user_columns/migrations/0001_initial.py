@@ -22,8 +22,6 @@ class Migration(migrations.Migration):
                 ('last_updated', models.DateTimeField(default=django.utils.timezone.now)),
                 ('user', models.ForeignKey(related_name='datatable_colums', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
-            options={
-                'permissions': (('view_datatableusercolumns', 'View Datatable User Columns'),),
-            },
+            options={},
         ),
     ]
