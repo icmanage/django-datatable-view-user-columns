@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """models.py: Django """
 
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import importlib
 import logging
 
@@ -30,7 +27,7 @@ class DataTableUserColumns(models.Model):
         verbose_name = "Datatable user defined columns"
         verbose_name_plural = "Datatable user defined columns's"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.table_name.split(".")[-1]
 
     def save(self, *args, **kwargs):

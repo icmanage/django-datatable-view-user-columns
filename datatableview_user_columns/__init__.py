@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """__init__.py: Django  package container"""
 
-from __future__ import unicode_literals
-from __future__ import print_function
-
 __author__ = 'Steven Klass'
 __version_info__ = (1, 2, 3)
 __version__ = '.'.join(map(str, __version_info__))

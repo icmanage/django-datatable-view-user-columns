@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """forms.py: Django datatable_user_columns"""
 
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import logging
 
 from django import forms
@@ -29,7 +26,7 @@ class UserColumnsUpdateForm(forms.ModelForm):
 
     def clean_columns(self):
         columns = self.cleaned_data['columns']
-        if isinstance(columns, basestring):
+        if isinstance(columns, str):
             columns = columns.strip()
         return ",".join(columns)
 

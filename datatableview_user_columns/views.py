@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """views.py: Django """
 
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import importlib
 import logging
 import os

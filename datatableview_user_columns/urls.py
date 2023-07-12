@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """urls.py: Django """
 
-from __future__ import unicode_literals
-from __future__ import print_function
-
 import logging
 
-from django.conf.urls import url
+from django.urls import path, re_path
 
 from .views import DataTableUserColumnsListView, DataTableUserColumnsUpdateView, DataTableUserColumnsCreateView, \
     DataTableUserColumnsDeleteView
@@ -19,8 +16,8 @@ __credits__ = ['Steven Klass', ]
 log = logging.getLogger(__name__)
 
 urlpatterns = [
-    url(r'^user_columns/$', DataTableUserColumnsListView.as_view(), name="user_table_list"),
-    url(r'^user_columns/create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="user_table_create"),
-    url(r'^user_columns/update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="user_table_update"),
-    url(r'^user_columns/delete/(?P<pk>\d+)/$', DataTableUserColumnsDeleteView.as_view(), name="user_table_delete"),
+    path('user_columns/', DataTableUserColumnsListView.as_view(), name="user_table_list"),
+    re_path(r'^user_columns/create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="user_table_create"),
+    path('user_columns/update/<int:pk>/', DataTableUserColumnsUpdateView.as_view(), name="user_table_update"),
+    path('user_columns/delete/<int:pk>/', DataTableUserColumnsDeleteView.as_view(), name="user_table_delete"),
 ]
