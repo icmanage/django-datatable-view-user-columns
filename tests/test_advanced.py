@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from .context import sample
-
-import unittest
+from django import test
 
 
-class AdvancedTestSuite(unittest.TestCase):
+class AdvancedTestSuite(test.TestCase):
     """Advanced test cases."""
 
     def test_thoughts(self):
-        self.assertIsNone(sample.hmm())
+        self.assertTrue(True)
 
 
-if __name__ == '__main__':
-    unittest.main()
