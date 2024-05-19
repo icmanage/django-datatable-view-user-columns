@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 from datatableview_user_columns.datatables import DataTableUserDataTableMixin
 from datatableview_user_columns.models import DataTableUserColumns
+
 User = get_user_model()
 
 
@@ -14,7 +15,6 @@ class DataTablesTestCase(test.TestCase):
         self.assertEqual(sls.table_name, "test_table")
         self.assertEqual(user.username, "Nadia")
         print(sls)
-
 
     def test_column_edit_url(self):
         user = User.objects.create_user("Nadia")
