@@ -12,6 +12,6 @@ class DataTableUserColumnsViewTests(test.TestCase):
     def test_get(self):
         user = User.objects.create_user("Nadia")
         self.client.force_login(user)
-        response = self.client.get(reverse('datatableview_user_columns:data'))
+        response = self.client.get(reverse('user_columns:list'))
         self.assertEqual(response.status_code, 200)
 

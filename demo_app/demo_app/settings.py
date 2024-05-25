@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'datatableview',
     'datatableview_user_columns'
+
 ]
 
 MIDDLEWARE = [

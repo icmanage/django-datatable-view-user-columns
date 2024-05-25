@@ -19,9 +19,9 @@ class DataTablesTestCase(test.TestCase):
     def test_column_edit_url(self):
         user = User.objects.create_user("Nadia")
         sls2 = DataTableUserDataTableMixin(table_name="test_table", user=user)
-        self.assertEqual(sls2.column_edit_url(), '/user_table_create/test_table')
+        self.assertEqual(sls2.column_edit_url, '/user_columns/create/test_table/')
 
     def test_column_delete_url(self):
         user = User.objects.create_user("Nadia")
         sls3 = DataTableUserDataTableMixin(table_name="test_table", user=user)
-        self.assertEqual(sls3.column_delete_url(), '/user_table_delete/test_table')
+        self.assertEqual(sls3.column_delete_url, None)

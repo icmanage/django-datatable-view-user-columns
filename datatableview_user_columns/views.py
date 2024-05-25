@@ -16,7 +16,7 @@ from .datatables import DataTableUserColumnsDataTable
 from datatableview import views
 from .forms import UserColumnsUpdateForm
 from .models import DataTableUserColumns
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, ListView
 
 __author__ = 'Steven Klass'
 __date__ = '8/10/17 11:41'
@@ -123,7 +123,7 @@ class DataTableUserColumnsDeleteView(DeleteView):
 #
 
 
-class DataTableUserColumnsListView(DataTableUserMixin):
+class DataTableUserColumnsListView(DataTableUserMixin, ListView):
     permission_required = 'ip_verification.view_regressiontagsummary'
     datatable_class = DataTableUserColumnsDataTable
     show_add_button = False

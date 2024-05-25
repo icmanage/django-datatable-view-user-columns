@@ -18,20 +18,17 @@ from __future__ import print_function
 
 import logging
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from django.contrib import admin
 
-from datatableview_user_columns.views import DataTableUserColumnsListView, DataTableUserColumnsCreateView, \
-    DataTableUserColumnsUpdateView, DataTableUserColumnsDeleteView
+import datatableview_user_columns
+
 
 
 log = logging.getLogger(__name__)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user_columns/create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(),
-        name="user_table_create"),
-    url(r'^user_columns/update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="user_table_update"),
-    url(r'^user_columns/delete/(?P<pk>\d+)/$', DataTableUserColumnsDeleteView.as_view(), name="user_table_delete"),
+    url(r'^user_columns/', include('datatableview_user_columns.urls', namespace='user_columns'))
 ]
