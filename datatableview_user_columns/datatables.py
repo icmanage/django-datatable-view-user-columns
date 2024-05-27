@@ -72,12 +72,6 @@ class DataTableUserDataTableMixin(object):
         if self.table_name and self.column_datatable_object:
             return reverse('user_table_delete', kwargs=dict(pk=self.column_datatable_object.id))
 
-
-#
-# Example
-
-#
-
 class DataTableUserColumnsDataTable(DataTableUserDataTableMixin, datatables.Datatable):
     pk = datatables.IntegerColumn("PK", sources=['pk'])
     username = datatables.TextColumn("Username", sources=['user__username'])

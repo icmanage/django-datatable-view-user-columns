@@ -1,5 +1,6 @@
 from django import test
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from datatableview_user_columns.datatables import DataTableUserDataTableMixin
 from datatableview_user_columns.models import DataTableUserColumns
@@ -25,3 +26,4 @@ class DataTablesTestCase(test.TestCase):
         user = User.objects.create_user("Nadia")
         sls3 = DataTableUserDataTableMixin(table_name="test_table", user=user)
         self.assertEqual(sls3.column_delete_url, None)
+
