@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from .datatables import DataTableUserColumnsDataTable
 from datatableview import views
-from .forms import UserColumnsUpdateForm
+from .forms import UserColumnsUpdateForm, UserColumnsForm
 from .models import DataTableUserColumns
 from django.views.generic import CreateView, DeleteView, ListView
 
@@ -43,15 +43,17 @@ try:
 except:
     log.warning("No IPC Datatable view found!")
     class DatatableMixin(object):
-        pass
-    # from views import DatatableMixin
+        def get_datatable_kwargs(self, **kw):
+            return {}
 
 
 class DataTableUserMixin(DatatableMixin):
 
     def get_datatable_kwargs(self, **kwargs):
         kwargs = super(DataTableUserMixin, self).get_datatable_kwargs(**kwargs)
-        kwargs['user'] = self.request.user
+        kwargs['user'] = None
+        if hasattr(self, 'request'):
+            kwargs['user'] = self.request.user
         kwargs['table_name'] = self.get_table()
         return kwargs
 
@@ -63,9 +65,17 @@ class DataTableUserMixin(DatatableMixin):
 
 
 class DataTableUserColumnsCreateView(AuthenticationMixin, CreateView):
+    form_class = UserColumnsForm
+    template_name = "datatableview_user_columns/datatableusercolumns_form.html"
+
+    def get_queryset(self):
+        return DataTableUserColumns.objects.all()
 
     def get(self, request, *args, **kwargs):
+        # This is simply a flag to create a dummy holder.
+        # The create happens on the get (which is wrong)
 
+        # Table name is a reference to the list view for a given table
         _import = ".".join(kwargs.get('table_name').split(".")[:-1])
         _class = kwargs.get('table_name').split(".")[-1]
 
@@ -80,7 +90,7 @@ class DataTableUserColumnsCreateView(AuthenticationMixin, CreateView):
         if len(next_page):
             next_page = "?next=" + next_page
 
-        return HttpResponseRedirect(reverse('user_table_update', kwargs=dict(pk=obj.id)) + next_page)
+        return HttpResponseRedirect(reverse('user_columns:update', kwargs=dict(pk=obj.id)) + next_page)
 
 
 class DataTableUserColumnsUpdateView(UpdateView):

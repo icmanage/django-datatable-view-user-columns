@@ -19,6 +19,12 @@ __credits__ = ['Steven Klass', ]
 log = logging.getLogger(__name__)
 
 
+class UserColumnsForm(forms.ModelForm):
+
+    class Meta(object):
+        model = DataTableUserColumns
+        fields = ('columns', 'table_name', 'user')
+
 class UserColumnsUpdateForm(forms.ModelForm):
     """Update User Columns"""
     columns = forms.MultipleChoiceField(required=True, label="Columns")

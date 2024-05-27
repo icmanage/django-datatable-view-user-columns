@@ -63,9 +63,9 @@ class DataTableUserDataTableMixin(object):
     def column_edit_url(self):
         if self.table_name:
             if self.column_datatable_object is None:
-                return reverse('user_table_create', kwargs=dict(table_name=self.table_name))
+                return reverse('user_columns:create', kwargs=dict(table_name=self.table_name))
             else:
-                return reverse('user_table_update', kwargs=dict(pk=self.column_datatable_object.id))
+                return reverse('user_columns:update', kwargs=dict(pk=self.column_datatable_object.id))
 
     @property
     def column_delete_url(self):
