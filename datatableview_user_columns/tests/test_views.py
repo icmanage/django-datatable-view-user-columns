@@ -4,7 +4,7 @@ import os
 from datatableview import datatables
 from django import test
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.views.generic import ListView
 
@@ -35,6 +35,7 @@ class ExampleUserDataTable(DataTableUserDataTableMixin, datatables.Datatable):
             'is_superuser',
         ]
 
+
 class ExampleUserListView(DataTableUserMixin, ListView):
     datatable_class = ExampleUserDataTable
     show_add_button = False
@@ -42,6 +43,8 @@ class ExampleUserListView(DataTableUserMixin, ListView):
     def get_queryset(self):
         return User.objects.all()
 
+
+2
 
 
 class DataTableUserColumnsViewTests(test.TestCase):
@@ -62,7 +65,6 @@ class DataTableUserColumnsViewTests(test.TestCase):
 
 
 class TestDataTableUserColumnsCreateView(TestCase):
-
 
     def test_get(self):
         user = User.objects.create_superuser("nadia", "nadia@home.com", "password")
@@ -89,42 +91,59 @@ class TestDataTableUserColumnsCreateView(TestCase):
         DataTableUserColumns.objects.all().delete()
         self.assertEqual(DataTableUserColumns.objects.count(), 0)
         # Posting to this URL will not do anything.  This is not good practice.
-        response = self.client.post(url, data={'columns':'username,email'})
+        response = self.client.post(url, data={'columns': 'username,email'})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(DataTableUserColumns.objects.count(), 0)
 
 
 class TestDataTableUserColumnsUpdateView(TestCase):
-    def test_get_queryset(self):
-        pass
+    def test_update(self):
 
-    def test_get_form_kwargs(self):
-        pass
+        user = User.objects.create_superuser("nadia", "nadia@home.com", "password")
+        self.assertTrue(
+            self.client.login(username=user.username, password="password"),
+            msg="User %s [pk=%s] is not allowed to login" % (user.username, user.pk),
+        )
 
-    def test_get_cancel_url(self):
-        pass
+        url = reverse('user_columns:create', kwargs={
+            'table_name': 'datatableview_user_columns.tests.test_views.ExampleUserListView'
+        })
 
-    def test_get_success_url(self):
-        pass
+        response = self.client.get(url)
+        kwargs = {'columns': 'username'}
+        response = self.client.post(response.url, data={'columns': 'username'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
+        dt = DataTableUserColumns.objects.get()
+        self.assertEqual(dt.columns, 'username')
 
-    def test_get_context_data(self):
-        pass
-
+        factory = RequestFactory()
+        request = factory.get('/customer/details')
+        response = TestDataTableUserColumnsUpdateView.as_view()(request)
+        self.assertIsInstance(response.context_data, dict)
+        self.assertEqual(response.context_data['1'], 1337)
 
 class TestDataTableUserColumnsDeleteView(TestCase):
-    def test_get_queryset(self):
-        pass
+    def test_delete(self):
+        user = User.objects.create_superuser("nadia", "nadia@home.com", "password")
+        self.assertTrue(
+            self.client.login(username=user.username, password="password"),
+            msg="User %s [pk=%s] is not allowed to login" % (user.username, user.pk),
+        )
 
-    def test_get_success_url(self):
-        pass
+        url = reverse('user_columns:create', kwargs={
+            'table_name': 'datatableview_user_columns.tests.test_views.ExampleUserListView'
+        })
 
-    def test_get(self, *args, **kwargs):
-        pass
+        response = self.client.get(url)
+        kwargs = {'columns': 'username'}
+        dt = DataTableUserColumns.objects.get()
+        response = self.client.delete(reverse("user_columns:delete", kwargs=dict(pk=dt.pk)))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
 
 class TestDataTableUserColumnsListView(TestCase):
     def test_get_queryset(self):
         self.assertEqual(list(DataTableUserColumns.objects.get_queryset()), list(DataTableUserColumns.objects.all()))
 #        self.assertEqual(DataTableUserColumns.objects.get_queryset(), DataTableUserColumns.objects.all())
-
-

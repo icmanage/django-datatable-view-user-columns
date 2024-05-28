@@ -128,9 +128,6 @@ class DataTableUserColumnsDeleteView(DeleteView):
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
-#
-# Example using our own system...
-#
 
 
 class DataTableUserColumnsListView(DataTableUserMixin, ListView):
