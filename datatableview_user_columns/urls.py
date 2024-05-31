@@ -18,6 +18,8 @@ __credits__ = ['Steven Klass', ]
 
 log = logging.getLogger(__name__)
 
+app_name = "user_table"
+
 urlpatterns = [
     url(r'^$', DataTableUserColumnsListView.as_view(), name="list"),
     url(r'^create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="create"),

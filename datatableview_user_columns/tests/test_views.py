@@ -10,7 +10,7 @@ from django.views.generic import ListView
 
 from datatableview_user_columns.datatables import DataTableUserDataTableMixin
 from datatableview_user_columns.models import DataTableUserColumns
-from datatableview_user_columns.views import DataTableUserMixin, DataTableUserColumnsListView
+from datatableview_user_columns.views import DataTableUserMixin, DataTableUserColumnsUpdateView
 
 User = get_user_model()
 
@@ -98,7 +98,6 @@ class TestDataTableUserColumnsCreateView(TestCase):
 
 class TestDataTableUserColumnsUpdateView(TestCase):
     def test_update(self):
-
         user = User.objects.create_superuser("nadia", "nadia@home.com", "password")
         self.assertTrue(
             self.client.login(username=user.username, password="password"),
@@ -123,6 +122,7 @@ class TestDataTableUserColumnsUpdateView(TestCase):
         self.assertIsInstance(response.context_data, dict)
         self.assertEqual(response.context_data['1'], 1337)
 
+
 class TestDataTableUserColumnsDeleteView(TestCase):
     def test_delete(self):
         user = User.objects.create_superuser("nadia", "nadia@home.com", "password")
@@ -146,4 +146,3 @@ class TestDataTableUserColumnsDeleteView(TestCase):
 class TestDataTableUserColumnsListView(TestCase):
     def test_get_queryset(self):
         self.assertEqual(list(DataTableUserColumns.objects.get_queryset()), list(DataTableUserColumns.objects.all()))
-#        self.assertEqual(DataTableUserColumns.objects.get_queryset(), DataTableUserColumns.objects.all())

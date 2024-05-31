@@ -22,6 +22,11 @@ log = logging.getLogger(__name__)
 
 class DataTableUserDataTableMixin(object):
     default_columns = []
+    columns = {
+        'username': 'Username Column',
+        'email': 'Email Column',
+        'table': 'Table Column',
+    }
 
     def __init__(self, user=None, table_name=None, *args, **kwargs):
         super(DataTableUserDataTableMixin, self).__init__(*args, **kwargs)
@@ -70,7 +75,7 @@ class DataTableUserDataTableMixin(object):
     @property
     def column_delete_url(self):
         if self.table_name and self.column_datatable_object:
-            return reverse('user_table_delete', kwargs=dict(pk=self.column_datatable_object.id))
+            return reverse('user_table:delete', kwargs=dict(pk=self.column_datatable_object.id))
 
 class DataTableUserColumnsDataTable(DataTableUserDataTableMixin, datatables.Datatable):
     pk = datatables.IntegerColumn("PK", sources=['pk'])

@@ -22,7 +22,7 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
-          <option value="tuple.*" />
+          <option value="datatableview_user_columns.tests.test_views.TestDataTableUserColumnsUpdateView.*" />
         </list>
       </option>
     </inspection_tool>
