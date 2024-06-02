@@ -1,4 +1,4 @@
 django-datatable-view
 Django~=5.0.6
-setuptools~=65.7.0
+setuptools
 django-crispy-forms==2.1
