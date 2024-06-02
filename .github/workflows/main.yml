@@ -82,37 +82,37 @@ jobs:
 #      - name: Pre-Commit
 #        run: pre-commit run --all-files --show-diff-on-failure
 
-#  security:
-#    name: Bandit Security
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-python@v4
-#        with:
-#          python-version: "3.11"
-#          cache: 'pip'
-#          cache-dependency-path: |
-#            setup.py
-#            requirements*.txt
-#
-#      - name: Install dependencies
-#        run: |
-#          python setup.py install
-#          pip install bandit
-#
-#      - name: Bandit
-#        run: bandit -r datatableview_advanced_search -s B303,B308,B323,B324,B703 -f json -o report.json
-#
-#      - name: Show report
-#        if: ${{ success() || failure() }}
-#        run: cat report.json
-#
-#      - name: "Upload Bandit Results"
-#        if: ${{ success() || failure() }}
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: Bandit Security Report
-#          path: report.json
+  security:
+    name: Bandit Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+          cache-dependency-path: |
+            setup.py
+            requirements*.txt
+
+      - name: Install dependencies
+        run: |
+          python setup.py install
+          pip install bandit
+
+      - name: Bandit
+        run: bandit -r datatableview_advanced_search -s B303,B308,B323,B324,B703 -f json -o report.json
+
+      - name: Show report
+        if: ${{ success() || failure() }}
+        run: cat report.json
+
+      - name: "Upload Bandit Results"
+        if: ${{ success() || failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Bandit Security Report
+          path: report.json
 
   tests:
     name: Python ${{ matrix.python-version }} / ${{ matrix.db }} / Django ${{ matrix.django-version}}
