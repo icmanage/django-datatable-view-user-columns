@@ -21,6 +21,7 @@ repos:
         exclude: .idea/.*
       - id: check-json
   -   repo: https://github.com/ambv/black
+      language_version: python3.12 # adding a language version to fixa an error
       rev: 23.3.0
       hooks:
       - id: black
