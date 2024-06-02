@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """demo_app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -25,10 +26,12 @@ from django.contrib import admin
 import datatableview_user_columns
 
 
-
 log = logging.getLogger(__name__)
 
 urlpatterns = [
-    re_path(r'^admin/', admin.site.urls),
-    re_path(r'^user_columns/', include('datatableview_user_columns.urls', namespace='user_columns'))
+    re_path(r"^admin/", admin.site.urls),
+    re_path(
+        r"^user_columns/",
+        include("datatableview_user_columns.urls", namespace="user_columns"),
+    ),
 ]

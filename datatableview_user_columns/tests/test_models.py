@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import test
 from django.contrib.auth import get_user_model
 
@@ -7,27 +8,37 @@ User = get_user_model()
 
 
 class TestUserColumns(test.TestCase):
-
     def test_ToString(self):
         user = User.objects.create_user("Nadia")
         obj = DataTableUserColumns.objects.create(user=user, table_name="test.col")
-        self.assertEqual(str(obj), 'DataTableUserColumns object (1)')
+        self.assertEqual(str(obj), "DataTableUserColumns object (1)")
         print(obj)
 
     def test_get_datatable_class(self):
         user = User.objects.create_user("Nadia")
-        obj = DataTableUserColumns.objects.create(user=user,
-                                                  table_name="datatableview_user_columns.views.DataTableUserColumnsListView",)
-        self.assertEqual(obj.get_datatable_class().__name__, "DataTableUserColumnsDataTable")
+        obj = DataTableUserColumns.objects.create(
+            user=user,
+            table_name="datatableview_user_columns.views.DataTableUserColumnsListView",
+        )
+        self.assertEqual(
+            obj.get_datatable_class().__name__, "DataTableUserColumnsDataTable"
+        )
         print(obj.get_datatable_class())
 
     def test_get_available_column_choices(self):
         user = User.objects.create_user("Nadia")
-        obj = DataTableUserColumns.objects.create(user=user,
-                                                  table_name="datatableview_user_columns.views.DataTableUserColumnsListView")
-        self.assertEqual(obj.get_available_column_choices(), [(u'pk', u'PK'),
-                                                              (u'username', u'Username'),
-                                                              (u'email', u'Email'),
-                                                              (u'table', u'Table'),
-                                                              (u'columns', u'Columns'),
-                                                              (u'last_updated', u'Last Updated')])
+        obj = DataTableUserColumns.objects.create(
+            user=user,
+            table_name="datatableview_user_columns.views.DataTableUserColumnsListView",
+        )
+        self.assertEqual(
+            obj.get_available_column_choices(),
+            [
+                ("pk", "PK"),
+                ("username", "Username"),
+                ("email", "Email"),
+                ("table", "Table"),
+                ("columns", "Columns"),
+                ("last_updated", "Last Updated"),
+            ],
+        )

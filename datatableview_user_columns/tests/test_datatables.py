@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import test
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -10,15 +11,12 @@ User = get_user_model()
 
 
 class DataTablesTestCase(test.TestCase):
-
     # testing new setup function
     def setUp(self):
         self.user = User.objects.create_user(username="Nadia")
         self.table_name = "test_table"
         self.column_obj = DataTableUserColumns.objects.create(
-            user=self.user,
-            table_name=self.table_name,
-            columns="username,email,table"
+            user=self.user, table_name=self.table_name, columns="username,email,table"
         )
 
     def tearDown(self):
@@ -39,9 +37,7 @@ class DataTablesTestCase(test.TestCase):
         table_name = "test_table"
         # Create an invalid column_datatable_object
         column_obj = DataTableUserColumns.objects.create(
-            user=user,
-            table_name=table_name,
-            columns="invalid_column"
+            user=user, table_name=table_name, columns="invalid_column"
         )
         sls = DataTableUserDataTableMixin(user=user)
         self.assertIsNone(sls.table_name)
@@ -50,13 +46,15 @@ class DataTablesTestCase(test.TestCase):
         # Ensure that the invalid column is removed from the column_datatable_object
         self.assertTrue(DataTableUserColumns.objects.filter(id=column_obj.id).exists())
         column_obj.refresh_from_db()
-        self.assertEqual(column_obj.columns, u'invalid_column')  # Invalid column should be removed
+        self.assertEqual(
+            column_obj.columns, "invalid_column"
+        )  # Invalid column should be removed
 
     def test_column_edit_url(self):
         # Case where column_datatable_object is None
         DataTableUserColumns.objects.all().delete()
         sls2 = DataTableUserDataTableMixin(table_name="test_table", user=self.user)
-        self.assertEqual(sls2.column_edit_url, '/user_columns/create/test_table/')
+        self.assertEqual(sls2.column_edit_url, "/user_columns/create/test_table/")
 
         # Case where column_datatable_object is not None
         sls2 = DataTableUserDataTableMixin(user=self.user, table_name=self.table_name)
@@ -69,4 +67,4 @@ class DataTablesTestCase(test.TestCase):
     def test_column_delete_url(self):
         # Case when both table_name and column_datatable_object are provided
         sls3 = DataTableUserDataTableMixin(user=self.user, table_name=self.table_name)
-        self.assertEqual(sls3.column_delete_url, u'/user_columns/delete/1/')
+        self.assertEqual(sls3.column_delete_url, "/user_columns/delete/1/")
