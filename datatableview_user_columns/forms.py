@@ -35,7 +35,7 @@ class UserColumnsUpdateForm(forms.ModelForm):
 
     def clean_columns(self):
         columns = self.cleaned_data['columns']
-        if isinstance(columns, basestring):
+        if isinstance(columns, str):
             columns = columns.strip()
         return ",".join(columns)
 

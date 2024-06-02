@@ -18,7 +18,7 @@ from __future__ import print_function
 
 import logging
 
-from django.conf.urls import url, include
+from django.urls.conf import re_path, include
 
 from django.contrib import admin
 
@@ -29,6 +29,6 @@ import datatableview_user_columns
 log = logging.getLogger(__name__)
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^user_columns/', include('datatableview_user_columns.urls', namespace='user_columns'))
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^user_columns/', include('datatableview_user_columns.urls', namespace='user_columns'))
 ]

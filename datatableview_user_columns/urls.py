@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import logging
 
-from django.conf.urls import url
+from django.urls.conf import re_path, include
 
 from .views import DataTableUserColumnsListView, DataTableUserColumnsUpdateView, DataTableUserColumnsCreateView, \
     DataTableUserColumnsDeleteView
@@ -21,8 +21,8 @@ log = logging.getLogger(__name__)
 app_name = "user_table"
 
 urlpatterns = [
-    url(r'^$', DataTableUserColumnsListView.as_view(), name="list"),
-    url(r'^create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="create"),
-    url(r'^update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="update"),
-    url(r'^delete/(?P<pk>\d+)/$', DataTableUserColumnsDeleteView.as_view(), name="delete"),
+    re_path(r'^$', DataTableUserColumnsListView.as_view(), name="list"),
+    re_path(r'^create/(?P<table_name>[A-Za-z0-9_\.]+)/$', DataTableUserColumnsCreateView.as_view(), name="create"),
+    re_path(r'^update/(?P<pk>\d+)/$', DataTableUserColumnsUpdateView.as_view(), name="update"),
+    re_path(r'^delete/(?P<pk>\d+)/$', DataTableUserColumnsDeleteView.as_view(), name="delete"),
 ]

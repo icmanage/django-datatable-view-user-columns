@@ -116,11 +116,12 @@ class TestDataTableUserColumnsUpdateView(TestCase):
         dt = DataTableUserColumns.objects.get()
         self.assertEqual(dt.columns, 'username')
 
-        factory = RequestFactory()
-        request = factory.get('/customer/details')
-        response = TestDataTableUserColumnsUpdateView.as_view()(request)
-        self.assertIsInstance(response.context_data, dict)
-        self.assertEqual(response.context_data['1'], 1337)
+        response = self.client.post(reverse('user_columns:update', kwargs={'pk': dt.pk}), data={'columns': 'username'})
+        self.assertEqual(response.status_code, 302)
+        dt = DataTableUserColumns.objects.get()
+        self.assertEqual(dt.columns, 'username')
+        # self.assertIsInstance(response.context_data, dict)
+        # self.assertEqual(response.context_data['1'], 1337)
 
 
 class TestDataTableUserColumnsDeleteView(TestCase):

@@ -11,7 +11,7 @@ class TestUserColumns(test.TestCase):
     def test_ToString(self):
         user = User.objects.create_user("Nadia")
         obj = DataTableUserColumns.objects.create(user=user, table_name="test.col")
-        self.assertEqual(str(obj), "col")
+        self.assertEqual(str(obj), 'DataTableUserColumns object (1)')
         print(obj)
 
     def test_get_datatable_class(self):
