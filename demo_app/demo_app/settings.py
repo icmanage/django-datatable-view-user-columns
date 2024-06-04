@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "crispy_forms",
-    'crispy_bootstrap5', # added this
+    "crispy_bootstrap5",  # added this
     "datatableview",
     "datatableview_user_columns",
 ]
