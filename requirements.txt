@@ -1,5 +1,0 @@
-django-datatable-view
-Django~=5.0.6
-setuptools
-django-crispy-forms==2.1
-datatableview_user_columns~=1.2.3
