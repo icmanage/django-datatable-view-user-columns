@@ -36,6 +36,7 @@ classifiers = [
 dependencies = [
     "django",
     "django-datatable-view",
+    "crispy_forms"
 
 ]
 
