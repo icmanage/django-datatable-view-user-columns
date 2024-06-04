@@ -6,7 +6,7 @@ from __future__ import print_function
 
 __author__ = "Steven Klass"
 __version_info__ = (1, 2, 3)
-__version__ = ".".join(map(str, __version_info__))
+__version__ = "1.2.3"
 __date__ = "8/10/17 11:41"
 __copyright__ = "Copyright 2017 IC Manage. All rights reserved."
 __credits__ = [
