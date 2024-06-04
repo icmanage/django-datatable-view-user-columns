@@ -46,9 +46,7 @@ class DataTablesTestCase(test.TestCase):
         # Ensure that the invalid column is removed from the column_datatable_object
         self.assertTrue(DataTableUserColumns.objects.filter(id=column_obj.id).exists())
         column_obj.refresh_from_db()
-        self.assertEqual(
-            column_obj.columns, "invalid_column"
-        )  # Invalid column should be removed
+        self.assertEqual(column_obj.columns, "invalid_column")  # Invalid column should be removed
 
     def test_column_edit_url(self):
         # Case where column_datatable_object is None

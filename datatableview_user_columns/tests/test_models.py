@@ -20,9 +20,7 @@ class TestUserColumns(test.TestCase):
             user=user,
             table_name="datatableview_user_columns.views.DataTableUserColumnsListView",
         )
-        self.assertEqual(
-            obj.get_datatable_class().__name__, "DataTableUserColumnsDataTable"
-        )
+        self.assertEqual(obj.get_datatable_class().__name__, "DataTableUserColumnsDataTable")
         print(obj.get_datatable_class())
 
     def test_get_available_column_choices(self):

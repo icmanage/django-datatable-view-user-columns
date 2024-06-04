@@ -122,12 +122,8 @@ class DataTableUserColumnsUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         data = super(DataTableUserColumnsUpdateView, self).get_context_data(**kwargs)
         data["next"] = self.request.GET.get("next")
-        data["column_choices"] = [
-            x[1] for x in self.object.get_available_column_choices()
-        ]
-        data["delete_url"] = reverse(
-            "user_table_delete", kwargs=dict(pk=self.object.id)
-        )
+        data["column_choices"] = [x[1] for x in self.object.get_available_column_choices()]
+        data["delete_url"] = reverse("user_table_delete", kwargs=dict(pk=self.object.id))
         return data
 
 

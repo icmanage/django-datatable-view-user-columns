@@ -31,9 +31,7 @@ class ExampleUserDataTable(DataTableUserDataTableMixin, datatables.Datatable):
         "email",
         "is_admin",
     ]  # This lists out the default set of columns for a user
-    required_columns = [
-        ("pk", 0)
-    ]  # This says that at position 0 no matter what show pk
+    required_columns = [("pk", 0)]  # This says that at position 0 no matter what show pk
 
     class Meta:
         model = DataTableUserColumns
@@ -93,9 +91,7 @@ class TestDataTableUserColumnsCreateView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(DataTableUserColumns.objects.count(), 1)
         data_table_column = DataTableUserColumns.objects.get()
-        self.assertEqual(
-            response.url, "/user_columns/update/{}/".format(data_table_column.pk)
-        )
+        self.assertEqual(response.url, "/user_columns/update/{}/".format(data_table_column.pk))
         # At this point we have created a DataTableUserColumns that should default to
         # whatever is listed in the datatable.default_columns
         self.assertEqual(data_table_column.user, user)
@@ -161,9 +157,7 @@ class TestDataTableUserColumnsDeleteView(TestCase):
         response = self.client.get(url)
         kwargs = {"columns": "username"}
         dt = DataTableUserColumns.objects.get()
-        response = self.client.delete(
-            reverse("user_columns:delete", kwargs=dict(pk=dt.pk))
-        )
+        response = self.client.delete(reverse("user_columns:delete", kwargs=dict(pk=dt.pk)))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 

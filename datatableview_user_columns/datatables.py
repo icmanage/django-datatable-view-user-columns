@@ -47,9 +47,7 @@ class DataTableUserDataTableMixin(object):
 
         if hasattr(self, "required_columns"):
             keep_columns = [
-                k
-                for k in keep_columns
-                if k not in [x[1] for x in self.required_columns]
+                k for k in keep_columns if k not in [x[1] for x in self.required_columns]
             ]
             for k, pos in self.required_columns:
                 if pos >= 0:
@@ -82,9 +80,7 @@ class DataTableUserDataTableMixin(object):
     def column_edit_url(self):
         if self.table_name:
             if self.column_datatable_object is None:
-                return reverse(
-                    "user_columns:create", kwargs=dict(table_name=self.table_name)
-                )
+                return reverse("user_columns:create", kwargs=dict(table_name=self.table_name))
             else:
                 return reverse(
                     "user_columns:update",
@@ -94,9 +90,7 @@ class DataTableUserDataTableMixin(object):
     @property
     def column_delete_url(self):
         if self.table_name and self.column_datatable_object:
-            return reverse(
-                "user_table:delete", kwargs=dict(pk=self.column_datatable_object.id)
-            )
+            return reverse("user_table:delete", kwargs=dict(pk=self.column_datatable_object.id))
 
 
 class DataTableUserColumnsDataTable(DataTableUserDataTableMixin, datatables.Datatable):
@@ -112,9 +106,7 @@ class DataTableUserColumnsDataTable(DataTableUserDataTableMixin, datatables.Data
         "table",
         "columns",
     ]  # This lists out the default set of columns for a user
-    required_columns = [
-        ("pk", 0)
-    ]  # This says that at position 0 no matter what show pk
+    required_columns = [("pk", 0)]  # This says that at position 0 no matter what show pk
 
     class Meta:
         model = DataTableUserColumns
