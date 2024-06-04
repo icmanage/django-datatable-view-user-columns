@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3
+  python: python3 # changed from 3.12
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
@@ -29,4 +29,4 @@ repos:
       rev: 5.0.4
       hooks:
       - id: flake8
-        language_version: python3.12
+        language_version: python3 # changed from 3.12
