@@ -45,7 +45,8 @@ test = [
     "bandit",
     "coverage",
     "pre-commit",
-    "black"
+    "black",
+    "django-environ"
 ]
 
 
