@@ -41,7 +41,7 @@ try:
     from apps.core.views.generics import IPCDatatableView as DatatableMixin
 except:
     log.warning("No IPC Datatable view found!")
-    from datatables.views import DatatableMixin
+    from datatableview.views import DatatableView as DatatableMixin
 
 
 class DataTableUserMixin(DatatableMixin):
