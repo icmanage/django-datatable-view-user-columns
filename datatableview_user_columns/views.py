@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 
 try:
     from apps.core.views.generics import AuthenticationMixin
-except ModuleNotFoundError:
+except ImportError:
     log.warning("No auth mixin found!")
 
     class AuthenticationMixin(object):
@@ -38,13 +38,13 @@ except ModuleNotFoundError:
 
 try:
     from apps.core.views.generics import IPCUpdateView as UpdateView
-except ModuleNotFoundError:
+except ImportError:
     from django.views.generic import UpdateView
 
 
 try:
     from apps.core.views.generics import IPCDatatableView as DatatableMixin
-except ModuleNotFoundError:
+except ImportError:
     log.warning("No IPC Datatable view found!")
 
     class DatatableMixin(object):
